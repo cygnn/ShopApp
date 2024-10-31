@@ -4,18 +4,20 @@ import Cards from './Card'
 
 export default function Products({prods}){
     const Container = styled.div`
-    display:flex;
-    gap:16px;
-    flex-direction:row;
-    width:100%;
+    display:grid;
+    grid-template-columns: repeat(4, 1fr); /* Creates 4 equal columns */
+    gap: 16px; /* Space between columns */
+    padding: 16px; /* Padding inside the grid container */
+    width:80%;
 `
     return(
         <Container>
-            {prods.forEach(item => {
+            {prods.map((product) => (
                 <Cards 
-                    item={item}
+                    key={product.id}
+                    item = {product}
                 />
-            })}
+            ))}
         </Container>
     )
 }

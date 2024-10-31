@@ -19,10 +19,10 @@ export default function Categories({category, handleCategory}){
                     justify-content: center;
                 `}
         >
-            <ToggleButton value='Men'>
+            <ToggleButton value="Men's clothing">
                 Men
             </ToggleButton>
-            <ToggleButton value='Women'>
+            <ToggleButton value="Women's clothing">
                 Women
             </ToggleButton>
             <ToggleButton value='Jewelry'>
@@ -36,6 +36,6 @@ export default function Categories({category, handleCategory}){
 }
 
 Categories.propTypes={
-    category: PropTypes.string.isRequired,
+    category: PropTypes.string,
     handleCategory: PropTypes.func.isRequired
 }

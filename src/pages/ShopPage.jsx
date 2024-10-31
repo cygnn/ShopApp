@@ -1,37 +1,47 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Categories from "../components/Categories";
 import Navbar from "../components/Navbar";
 import styled from "@emotion/styled";
+import { ThemeContext } from "../App";
+import Products from "../components/Products";
 
 export default function ShopPage(){
     const Title = styled.h2`
         dispay:flex;
     `
 
-    const [category, setCategory] = useState("Men")
+    const Parent = styled.div`
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    `
+
+    const {products} = useContext(ThemeContext)
+    const [category, setCategory] = useState("Men's clothing")
+    const filteredProds = products.filter((item) => {
+        if(item.category === 'jewelery' && category.toLowerCase() === 'jewelry'){
+            return true;
+        }
+        else if(item.category === category.toLowerCase())
+            return true;
+    })
+    
+
     const handleCategory = (event, newCategory)=> {
-        setCategory(newCategory);
+        if(newCategory !== null)
+            setCategory(newCategory);
     }
 
-    let title;
-    if(category === 'Men'){
-        title = "Men's Wear"
-    }
-    else if (category === 'Women'){
-        title = "Women's Wear"
-    }
-    else
-        title = category;
 
     return(
-        <div>
+        <Parent>
             <Navbar />
             <Categories 
                 category={category}
                 handleCategory={handleCategory}
             />
-            <Title>{title}</Title>
-            
-        </div>
+            <Title>{category}</Title>
+            <Products prods={filteredProds}/>
+        </Parent>
     )
 }

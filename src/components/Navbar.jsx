@@ -40,7 +40,7 @@ export default function Navbar() {
         }
     `
 
-    const cartItems = useContext(ThemeContext)
+    const {cartItems} = useContext(ThemeContext)
 
     let itemCount = 0
     

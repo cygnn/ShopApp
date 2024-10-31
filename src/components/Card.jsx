@@ -13,7 +13,6 @@ export default function Cards({item}){
     const [hovered, setHovered] = useState(false)
 
     function handleMouseEnter(){
-        console.log("MOUSE HAS ENTERED")
         setHovered(true)
     }
 
@@ -44,17 +43,19 @@ export default function Cards({item}){
                 alignItems:'center',
                 maxWidth:300,
                 minHeight: 550,
+                marginBottom: 2,
             }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
             <CardMedia 
                 component="img"
-                image={item.src}
+                image={item.image}
                 sx={{
                     width: '100%',
                     height: '80%',    
                     display: 'flex',
+                    objectFit: 'contain',
                 }}
             />
             <CardContent
@@ -88,7 +89,7 @@ export default function Cards({item}){
                 </ButtonGroup>
                 <Details>
                     <Title>{item.title}</Title>
-                    <Price>{item.price}</Price>
+                    <Price>${item.price}</Price>
                 </Details>
             </CardContent>
         </Card>
