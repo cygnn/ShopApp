@@ -3,7 +3,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Badge } from '@mui/material';
 import styled from '@emotion/styled';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../App';
 
 
@@ -42,13 +42,15 @@ export default function Navbar() {
 
     const {cartItems} = useContext(ThemeContext)
 
-    let itemCount = 0
+    const [itemCount, setItemCount] = useState(0)
+    useEffect(() => {
+        if (cartItems) {
+            let newItemCount = 0
+            cartItems.forEach((item) => newItemCount += item.quantity )
+            setItemCount(newItemCount);
+        }
+    }, [cartItems   ])
     
-    if(cartItems !== undefined){
-        cartItems.forEach(item => {
-            itemCount += item.quantity
-        });
-    }
 
     return(
         <Navbar>

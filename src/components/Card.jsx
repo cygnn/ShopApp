@@ -4,35 +4,46 @@ import PropTypes from 'prop-types'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import { useState } from 'react';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { useContext } from 'react';
+import { Button } from '@mui/material';
+import { ThemeContext } from '../App';
 
 
 export default function Cards({item}){
-    const [hovered, setHovered] = useState(false)
-
-    function handleMouseEnter(){
-        setHovered(true)
-    }
-
-    function handleMouseLeave(){
-        setHovered(false)
-    }
+    const {setCartItems, cartItems} = useContext(ThemeContext)
 
     const Details = styled.div`
         display: flex;
         justify-content: flex-start;
         flex-direction:column;
         padding:8px;
+        position:relative;
     `
     const Title = styled.div`
-        font-size: 1rem;
+        font-size: 0.8rem;
     `
 
     const Price = styled.div`
         font-size: 1.5rem;
+        display:flex;
+        justify-content: space-between;
     `
+
+    const handleAddtoCart = ()=> {
+        const newItem = {...item, quantity: 1}
+        if(cartItems.find((item) => 
+            item.id === newItem.id
+        ) === undefined){
+            setCartItems([...cartItems, newItem])
+        }
+        else{
+            const updatedData = cartItems.map((item) => 
+                item.id === newItem.id ? {...item, quantity: newItem.quantity + item.quantity} : item
+            )
+            setCartItems(updatedData)
+        }
+    }
 
     return(
         <Card  
@@ -44,9 +55,12 @@ export default function Cards({item}){
                 maxWidth:300,
                 minHeight: 550,
                 marginBottom: 2,
+                transition: 'transform 0.3s ',
+                '&:hover': {
+                    transform: 'scale(1.05)',
+                    },
             }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+
         >
             <CardMedia 
                 component="img"
@@ -68,28 +82,14 @@ export default function Cards({item}){
                     padding:0,
                 }}
             >
-                <ButtonGroup
-                    variant='contained'
-                    sx={{
-                        display: hovered ? 'flex' : 'none',
-                        position: 'absolute',
-                        top: 390,
-                        right: 0,
-                        width: '100%',
-                        justifyContent:'center',
-                        boxShadow:'none',
-                    }}
-                >
-                    <Button>XS</Button>
-                    <Button>S</Button>
-                    <Button>M</Button>
-                    <Button>L</Button>
-                    <Button>XL</Button>
-                    <Button>XXL</Button>
-                </ButtonGroup>
                 <Details>
                     <Title>{item.title}</Title>
-                    <Price>${item.price}</Price>
+                    <Price>
+                        ${item.price}
+                            <span>
+                                <Button startIcon={<AddShoppingCartIcon />} onClick={handleAddtoCart}>Add to Cart</Button>
+                            </span>
+                    </Price>
                 </Details>
             </CardContent>
         </Card>

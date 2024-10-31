@@ -28,7 +28,7 @@ function App() {
   },[])
 
   return (
-    <ThemeContext.Provider value={{cartItems, products}}>
+    <ThemeContext.Provider value={{cartItems, products, setCartItems}}>
       {/* <Cards
         item={obj}
       /> */}
