@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../App';
 import HoverCart from './HoverCart';
+import { useNavigate } from 'react-router-dom';
 
 const NavbarDiv = styled.div`
 display:flex;
@@ -44,7 +45,14 @@ export default function Navbar() {
     const [itemCount, setItemCount] = useState(0)
     // const [isHovered, setIsHovered] = useState(false)
 
-    
+    const navigate = useNavigate()
+
+    const handleNavigation = (event) =>{
+        if(event.target.value === 'home')
+            navigate('/')
+        else if (event.target.value === 'shop')
+            navigate('/shop')
+    }
 
     const handleMenuOpen = (event) =>{
         console.log('You are in handleMenuOpen')
@@ -79,8 +87,18 @@ export default function Navbar() {
 
     return(
         <NavbarDiv>
-            <div>TEST</div>
-            <div>LOGO</div>
+            <div>Lorem Ipsum</div>
+            <ButtonsDiv>
+                <Button onClick={handleNavigation} value={'home'}>
+                    Home
+                </Button>
+                <Button onClick={handleNavigation} value={'shop'}>
+                    Shop
+                </Button>
+                <Button>
+                    About Us
+                </Button>
+            </ButtonsDiv>
             <ButtonsDiv>
                 <Button>
                     <AccountCircleOutlinedIcon />

@@ -45,7 +45,9 @@ export default function HoverCart(){
     let price = cartItems.reduce((accumulator, item) => accumulator + (item.price * item.quantity), 0)
     let delivery = 300.00;
     let total = price + delivery;
+    let cartNum = cartItems.length
     return(
+        cartNum !== 0 ?
         <Hovercart>
             { cartItems.map((item) => 
                 <Details key={item.id}>
@@ -63,6 +65,7 @@ export default function HoverCart(){
             }
                 <Divider />
                 <Grid2>
+                    {console.log(cartNum)}
                     <div>Order value</div>
                     <div>${price.toFixed(2)}</div>
                     <div>Delivery</div>
@@ -73,6 +76,6 @@ export default function HoverCart(){
                     <span>Total</span>
                     <span>${total}</span>
                 </Grid2>
-        </Hovercart>
+        </Hovercart> : <div>Your cart is empty</div>
     )
 }
