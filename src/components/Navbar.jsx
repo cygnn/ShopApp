@@ -14,12 +14,9 @@ justify-content: space-around;
 align-items:center;
 width:100%;
 padding: 1rem 0;
-background-color: red;
+background-color: #141514;
 color: white;
-&:hover {
-    color:black;
-    background-color:white;
-}
+
 `
 
 const ButtonsDiv = styled.div`
@@ -33,9 +30,24 @@ margin:0;
 padding:0;
 color:inherit;
 background-color:transparent;
+transform: 0.5s;
+position:relative;
 &:hover{
-    color:black;
-    background-color:white;
+    color:white;
+    transform: scale(1.05)
+}
+&::after{
+    content:'';
+    position: absolute;
+    height: 1px;
+    left:0;
+    bottom:0;
+    width:0;
+    background: white;
+    transition: width 0.2s;
+}
+&:hover::after{
+    width:100%;
 }
 `
 
