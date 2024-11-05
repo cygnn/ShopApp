@@ -52,7 +52,7 @@ export default function Cards({item}){
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems:'center',
-                maxWidth:300,
+                maxWidth:400,
                 minHeight: 550,
                 marginBottom: 2,
                 transition: 'transform 0.3s ',

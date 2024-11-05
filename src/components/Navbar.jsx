@@ -1,7 +1,7 @@
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { Badge, Menu, MenuItem } from '@mui/material';
+import { Badge, Tooltip, tooltipClasses } from '@mui/material';
 import styled from '@emotion/styled';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../App';
@@ -39,9 +39,18 @@ background-color:transparent;
 }
 `
 
+const LightTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(() => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: '#f5f5f9',
+      color: 'rgba(0, 0, 0, 0.87)',
+      border: '1px solid #dadde9',
+    },
+  }));
+
 
 export default function Navbar() {
-    const [anchorEl, setAnchorEl] = useState(null)
     const [itemCount, setItemCount] = useState(0)
     // const [isHovered, setIsHovered] = useState(false)
 
@@ -53,26 +62,6 @@ export default function Navbar() {
         else if (event.target.value === 'shop')
             navigate('/shop')
     }
-
-    const handleMenuOpen = (event) =>{
-        console.log('You are in handleMenuOpen')
-        setAnchorEl(event.currentTarget);
-        console.log(event)
-        // setIsHovered(true);
-    }
-
-    const handleMenuClose = () => {
-        setAnchorEl(null)
-
-    }
-    
-    const handleMouseEnter = () => {
-        console.log('You are in handleMouseEnter')
-        // setIsHovered(true);
-    }
-
-
-    const open = Boolean(anchorEl)
 
     const {cartItems} = useContext(ThemeContext)
 
@@ -106,22 +95,17 @@ export default function Navbar() {
                 <Button>
                     <FavoriteBorderIcon/>
                 </Button>
-                <Button
-                onMouseOver={handleMenuOpen}
+                <LightTooltip 
+                    title={<HoverCart/>} 
+                    placement="bottom"
                 >
+                <Button>
                     <Badge badgeContent={itemCount} color="primary" sx={{width: '100%', height: '100%'}} >
                         <ShoppingCartOutlinedIcon sx={{width: 24, height: 29}}/>
                     </Badge>
                 </Button>          
+                </LightTooltip>
             </ButtonsDiv>
-            <Menu
-                id='basic-menu'
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleMenuClose}
-            >
-                <MenuItem onMouseEnter={handleMouseEnter} onMouseLeave={handleMenuClose}><HoverCart /></MenuItem>
-            </Menu>
         </NavbarDiv>
     )
 }

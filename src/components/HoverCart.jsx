@@ -11,7 +11,6 @@ const Hovercart = styled.div`
         display:block;
         width: 16rem;
         height: fit-content;
-        border: 1px solid black;
         padding:0.5rem;
     `
     const Details = styled.div`
@@ -52,7 +51,7 @@ export default function HoverCart(){
             { cartItems.map((item) => 
                 <Details key={item.id}>
                     <div><img src={item.image} css={css`width: 100px; height: 100px; object-fit: contain;`} /></div>
-                    <div css={css`display:`}> 
+                    <div css={css`margin-left: 16px;`}> 
                         <Title>{item.title}</Title>
                         <span css={css`color:red; display:flex;`}>${item.price}</span>
                         <Grid>
@@ -65,7 +64,6 @@ export default function HoverCart(){
             }
                 <Divider />
                 <Grid2>
-                    {console.log(cartNum)}
                     <div>Order value</div>
                     <div>${price.toFixed(2)}</div>
                     <div>Delivery</div>
