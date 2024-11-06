@@ -1,3 +1,4 @@
+import CartPage from "./pages/CartPage";
 import HomePage from "./pages/HomePage";
 import ShopPage from "./pages/ShopPage";
 
@@ -9,6 +10,10 @@ const routes = [
     {
         path: "/shop",
         element: <ShopPage />,
+    },
+    {
+        path:"/cart",
+        element: <CartPage />
     },
 ]
 

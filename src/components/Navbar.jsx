@@ -64,7 +64,6 @@ const LightTooltip = styled(({ className, ...props }) => (
 
 export default function Navbar() {
     const [itemCount, setItemCount] = useState(0)
-    // const [isHovered, setIsHovered] = useState(false)
 
     const navigate = useNavigate()
 
@@ -73,6 +72,8 @@ export default function Navbar() {
             navigate('/')
         else if (event.target.value === 'shop')
             navigate('/shop')
+        // else if (event.target.value === 'about')
+        //     navigate('/cart')
     }
 
     const {cartItems} = useContext(ThemeContext)
@@ -96,7 +97,7 @@ export default function Navbar() {
                 <Button onClick={handleNavigation} value={'shop'}>
                     Shop
                 </Button>
-                <Button>
+                <Button onClick={handleNavigation} value={'cart'}>
                     About Us
                 </Button>
             </ButtonsDiv>
