@@ -3,16 +3,19 @@
 
 import styled from "@emotion/styled";
 import Navbar from "../components/Navbar";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../App";
 import { css } from '@emotion/react';
 import { useNavigate } from "react-router-dom";
+import Incrementer from "../components/Incrementer";
+import { Alert, Divider, Snackbar } from "@mui/material";
 
 const Container = styled.div`
     width:100%;
     display:flex;
     flex-direction: column;
     align-items:center;
+    box-sizing: border-box;
 `
 const Cart = styled.div`
     display:flex;
@@ -20,18 +23,24 @@ const Cart = styled.div`
     justify-content: center;
     align-items:center;
     width: 70%;
+    padding:3rem 2rem;
 `
 const Title = styled.div`
-    font-size: 1.5rem;
+    font-size: 2rem;
 `
+const Details = styled.p`
+    font-size: 1rem;
+    margin:0;
+    position:relative;
+`
+
 const Button = styled.button`
 margin:0;
 padding:0;
 color:inherit;
 background-color:transparent;
 transform: 0.5s;
-position:relative;
-font-size: 0.8rem;
+font-size: 1rem;
 &:hover{
     
     transform: scale(1.05)
@@ -59,7 +68,8 @@ const Grid = styled.div`
 
 const Grid2 = styled.div`
     display:grid;
-    grid-template: 1fr / 2fr 1fr 1fr
+    grid-template: 1fr / 2fr 1fr 1fr;
+    align-items:center;
 `
 
 const DetailHeader = styled.div`
@@ -67,12 +77,6 @@ const DetailHeader = styled.div`
     font-weight: 600;
 `
 
-const ItemDetails = styled.div`
-    
-`
-const Details = styled.p`
-    font-size: 0.8rem;
-`
 const Checkout = styled.button`
     color: white;
     background-color: #141514;
@@ -100,11 +104,27 @@ export default function CartPage(){
         navigate('/shop')
     }
     const {cartItems, setCartItems} = useContext(ThemeContext)
+    const [alertOpen, setAlertOpen] = useState(false)
 
     const handleRemove = (id)=> {
         const filteredArr = cartItems.filter((item) => item.id !== id)
         setCartItems(filteredArr)
     }
+    const handleCheckout = () => {
+            setAlertOpen(true);
+            setTimeout(() => {
+                setAlertOpen(false);
+                setCartItems([]); 
+                navigate('/');
+            }, 3000);
+    };
+    const handleCloseAlert = () => {
+        setAlertOpen(false);
+    };
+
+    let price = cartItems.reduce((accumulator, item) => accumulator + (item.price * item.quantity), 0)
+    let delivery = 300.00;
+    let total = price + delivery;
     return(
         <Container>
             <Navbar />
@@ -124,24 +144,48 @@ export default function CartPage(){
                 
                 {cartItems.map((item) =>
                     <Grid key={item.id}>
-                        <div><img src={item.image} css={css`width: 100px; height: 100px; object-fit: contain;`} /></div>
+                        <div css={css`width:100%; height:100%;`}><img src={item.image} css={css`width: 40%; height: 100%; object-fit: contain;`} /></div>
                         <Grid2>
-                            <ItemDetails>
+                            <div>
                                 <Details>{item.title}</Details>
                                 <Button onClick={()=>handleRemove(item.id)}>Remove</Button>
-                            </ItemDetails>
-                            <ItemDetails></ItemDetails>  {/*THIS IS A DUMMY */}
-                            <ItemDetails>${item.price}</ItemDetails>
+                            </div>
+                            <Incrementer prod = {item} remove={handleRemove} />
+                            <div>${item.price * item.quantity}</div>
                         </Grid2>
                     </Grid>
                 )}
-                <Checkout>CHECKOUT</Checkout>
+                <div css={css`width:100%;display:grid; grid-template: 1fr / 1fr 1fr; padding:3rem 2rem`}>
+                    <div></div>
+                    <div>
+                        <div css={css`display:flex; justify-content: space-between;padding-bottom: 2rem;`}>
+                            <Details css={css`font-size:1.5rem; font-weight: 600;`}>SUBTOTAL</Details>
+                            <Details>${price}</Details>
+                        </div>
+                        <Divider></Divider>
+                        <div css={css`display:flex; justify-content: space-between;padding:2rem 0;`}>
+                            <Details css={css`font-size:1.5rem; font-weight: 600;`}>TOTAL</Details>
+                            <Details>${total}</Details>
+                        </div>
+                    </div>
+                </div>
+                
+                <Checkout onClick={handleCheckout}>CHECKOUT</Checkout>
                 </> : 
                 <div css={css`min-height: 45rem;width:70%;justify-content:center;display:flex;flex-direction:column;`}>
                     <Title>Your cart is empty.</Title>
                     <Button css={css`font-size:1rem`} onClick={handleNavigate}>Continue Shopping</Button>
                 </div>}
-            </Cart> 
+            </Cart>
+            <Snackbar
+                open={alertOpen}
+                autoHideDuration={3000} // Alert auto hides after 3 seconds
+                onClose={handleCloseAlert}
+            >
+                <Alert onClose={handleCloseAlert} severity={cartItems.length === 0 ? 'error' : 'success'}>
+                    {cartItems.length === 0 ? 'Your cart is empty! Please add items before checkout.' : 'Checkout successful!'}
+                </Alert>
+            </Snackbar>
         </Container>
     )
 }

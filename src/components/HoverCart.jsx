@@ -7,6 +7,7 @@ import { css } from '@emotion/react';
 import { useContext } from 'react';
 import { ThemeContext } from '../App';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types'
 
 const Hovercart = styled.div`
         display:block;
@@ -61,20 +62,19 @@ const Hovercart = styled.div`
             background-color: #333333; /* Darker shade on hover */
         }
 `;
-export default function HoverCart(){
+export default function HoverCart({itemCount}){
     const navigate = useNavigate()
     const {cartItems} = useContext(ThemeContext)
 
     let price = cartItems.reduce((accumulator, item) => accumulator + (item.price * item.quantity), 0)
     let delivery = 300.00;
     let total = price + delivery;
-    let cartNum = cartItems.length
 
     const handleNavigate = () =>{
         navigate('/cart')
     }
     return(
-        cartNum !== 0 ?
+        itemCount > 0 ?
         <Hovercart>
             { cartItems.map((item) => 
                 <Details key={item.id}>
@@ -102,7 +102,11 @@ export default function HoverCart(){
                     <span>Total</span>
                     <span>${total}</span>
                 </Grid2>
-                <Button onClick={handleNavigate}>CHECKOUT</Button>
+                <Button onClick={handleNavigate}>GO TO CART</Button>
         </Hovercart> : <div css={css`font-size: 1rem`}>Your cart is empty</div>
     )
+}
+
+HoverCart.propTypes ={
+    itemCount: PropTypes.number.isRequired,
 }

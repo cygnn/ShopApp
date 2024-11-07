@@ -82,7 +82,7 @@ export default function Navbar() {
         if (cartItems) {
             let newItemCount = 0
             cartItems.forEach((item) => newItemCount += item.quantity )
-            setItemCount(newItemCount);
+            setItemCount(Math.max(newItemCount, 0));
         }
     }, [cartItems   ])
     
@@ -109,7 +109,7 @@ export default function Navbar() {
                     <FavoriteBorderIcon/>
                 </Button>
                 <LightTooltip 
-                    title={<HoverCart/>} 
+                    title={<HoverCart itemCount={itemCount}/>} 
                     placement="bottom"
                 >
                 <Button>
