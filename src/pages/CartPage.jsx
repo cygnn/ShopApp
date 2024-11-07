@@ -68,9 +68,11 @@ const DetailHeader = styled.div`
 `
 
 const ItemDetails = styled.div`
+    
+`
+const Details = styled.p`
     font-size: 0.8rem;
 `
-
 const Checkout = styled.button`
     color: white;
     background-color: #141514;
@@ -97,7 +99,12 @@ export default function CartPage(){
     const handleNavigate = () => {
         navigate('/shop')
     }
-    const {cartItems} = useContext(ThemeContext)
+    const {cartItems, setCartItems} = useContext(ThemeContext)
+
+    const handleRemove = (id)=> {
+        const filteredArr = cartItems.filter((item) => item.id !== id)
+        setCartItems(filteredArr)
+    }
     return(
         <Container>
             <Navbar />
@@ -120,7 +127,8 @@ export default function CartPage(){
                         <div><img src={item.image} css={css`width: 100px; height: 100px; object-fit: contain;`} /></div>
                         <Grid2>
                             <ItemDetails>
-                                {item.title}
+                                <Details>{item.title}</Details>
+                                <Button onClick={()=>handleRemove(item.id)}>Remove</Button>
                             </ItemDetails>
                             <ItemDetails></ItemDetails>  {/*THIS IS A DUMMY */}
                             <ItemDetails>${item.price}</ItemDetails>

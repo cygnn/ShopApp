@@ -5,17 +5,21 @@ import styled from "@emotion/styled";
 import { ThemeContext } from "../App";
 import Products from "../components/Products";
 
+
+const Title = styled.h2`
+dispay:flex;
+`
+
+const Parent = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+width:100%;
+height:100%;
+`
+
+
 export default function ShopPage(){
-    const Title = styled.h2`
-        dispay:flex;
-    `
-
-    const Parent = styled.div`
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    `
-
     const {products} = useContext(ThemeContext)
     const [category, setCategory] = useState("Men's clothing")
     const filteredProds = products.filter((item) => {
